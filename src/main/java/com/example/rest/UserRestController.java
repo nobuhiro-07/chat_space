@@ -14,31 +14,31 @@ import com.example.form.UserDetailForm;
 @RestController
 @RequestMapping("/user")
 public class UserRestController {
-    
-    
+
+
     @Autowired
     private UserService userService;
-    
-    
-    
+
+
+
     /**  ユーザーを更新 */
     @PutMapping("/update")
     public int updateUser(UserDetailForm form) {
-        
-        userService.upfateUserOne(form.getUserId(),
+
+        userService.updateUserOne(form.getUserId(),
                 form.getPassword(),
                 form.getUserName());
-        
+
         return 0;
         }
-    
+
     /** ユーザーを削除 */
     @DeleteMapping("/delete")
     public int deleteUser(UserDetailForm form) {
-        
+
         // ユーザーを削除
         userService.deleteUserOne(form.getUserId());
-        
+
         return 0;
     }
 }

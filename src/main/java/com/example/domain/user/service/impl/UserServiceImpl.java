@@ -10,7 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.security.cripto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,21 +23,23 @@ import com.example.repository.UserRepository;
 @Primary
 public class UserServiceImpl implements UserService {
 
+
     @Autowired
     private UserRepository repository;
 
     @Autowired
     private PasswordEncoder encoder;
 
-
+    /** ユーザー登録 */
     @Transactional
     @Override
     public void signup(MUser user) {
 
-        boolean exists = repository.existsByld(user.getUserId());
+        boolean exists = repository.existsById(user.getUserId());
         if(exists) {
             throw new DataAccessException("ユーザーが既に存在") {};
         }
+
 
         // パスワードの暗号化
         String rawPassword = user.getPassword();
@@ -45,14 +47,14 @@ public class UserServiceImpl implements UserService {
 
         // insert
         repository.save(user);
-    }
+        }
 
 
     /** ユーザー取得 */
     @Override
-    public List<MUser> grtUsers(MUser user){
+    public List<MUser> getUsers(MUser user){
         //検索条件
-        ExampleMacther matcher = ExampleMatcher
+        ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withStringMatcher(StringMatcher.CONTAINING)
                 .withIgnoreCase();
@@ -68,6 +70,8 @@ public class UserServiceImpl implements UserService {
         MUser user = option.orElse(null);
         return user;
     }
+
+
 
     /** ユーザー更新(1件) */
     @Transactional
