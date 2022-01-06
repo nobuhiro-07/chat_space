@@ -12,18 +12,18 @@ public interface UserRepository extends JpaRepository<MUser, String> {
 
     /** ログインユーザー検索 */
     @Query("select user"
-            +"from MUser user"
-            +"where userId = :userId")
+            + " from MUser user"
+            + " where userId = :userId")
     public MUser findLoginUser(@Param("userId")String userId);
 
     /** ユーザー更新 */
     @Modifying
     @Query("update MUser"
-            +"set"
-            +" password = :password"
-            +" ,userName = :userName"
-            +"where"
-            +" userId = :userId")
+            + " set"
+            + " password = :password"
+            + " , userName = :userName"
+            + " where"
+            + " userId = :userId")
     public Integer updateUsere(@Param("userId")String userId,
             @Param("password")String password,
             @Param("userName")String userName);
