@@ -26,7 +26,6 @@ public class MUser {
     private Integer departmentId;
     private String role;
 
-
     @ManyToOne(optional = true)
     @JoinColumn(insertable=false, updatable=false, name = "departmentId")
     private Department department;

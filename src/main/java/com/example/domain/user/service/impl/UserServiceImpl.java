@@ -35,32 +35,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public void signup(MUser user) {
 
+        // 存在チェック
         boolean exists = repository.existsById(user.getUserId());
         if(exists) {
-            throw new DataAccessException("ユーザーが既に存在") {};
+            throw new DataAccessException("ユーザーが既に存在"){};
         }
 
+        user.setDepartmentId(1);
+        user.setRole("ROLE_GENERAL");
 
-        // パスワードの暗号化
+        // パスワード暗号化
         String rawPassword = user.getPassword();
         user.setPassword(encoder.encode(rawPassword));
 
         // insert
         repository.save(user);
-        }
-
+    }
 
     /** ユーザー取得 */
     @Override
-    public List<MUser> getUsers(MUser user){
-        //検索条件
+    public List<MUser> getUsers(MUser user) {
+
+        // 検索条件
         ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withStringMatcher(StringMatcher.CONTAINING)
-                .withIgnoreCase();
+                .matching() // and条件
+                .withStringMatcher(StringMatcher.CONTAINING) // Like句
+                .withIgnoreCase(); // 大文字・小文字の両方
 
         return repository.findAll(Example.of(user, matcher));
-
     }
 
     /** ユーザー取得(1件) */
@@ -71,8 +73,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-
-
     /** ユーザー更新(1件) */
     @Transactional
     @Override
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         String encryptPassword = encoder.encode(password);
 
         // ユーザー更新
-        repository.updateUsere(userId, encryptPassword, userName);
+        repository.updateUser(userId, encryptPassword, userName);
     }
 
     /** ユーザー削除(1件) */

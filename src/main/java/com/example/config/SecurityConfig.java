@@ -33,8 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .ignoring()
                 .antMatchers("/webjars/**")
                 .antMatchers("/css/**")
-                .antMatchers("/js/**");
-
+                .antMatchers("/js/**")
+                .antMatchers("/h2-console/**");
     }
 
     /** セキュリティの各種設定 */
@@ -75,9 +75,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         PasswordEncoder encoder = passwordEncoder();
 
+
         // ユーザーデータ認証
         auth
             .userDetailsService(userDetailsService)
             .passwordEncoder(encoder);
     }
 }
+
