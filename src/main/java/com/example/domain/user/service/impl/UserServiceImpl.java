@@ -1,6 +1,5 @@
 package com.example.domain.user.service.impl;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +17,9 @@ import com.example.domain.user.model.MUser;
 import com.example.domain.user.service.UserService;
 import com.example.repository.UserRepository;
 
-
 @Service
 @Primary
 public class UserServiceImpl implements UserService {
-
 
     @Autowired
     private UserRepository repository;
@@ -97,4 +94,5 @@ public class UserServiceImpl implements UserService {
     public MUser getLoginUser(String userId) {
         return repository.findLoginUser(userId);
     }
+
 }

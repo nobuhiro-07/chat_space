@@ -13,19 +13,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.user.model.MUser;
-import com.example.domain.user.service.UserService;
+import com.example.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService service;
+    private UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // ユーザー情報取得
-        MUser loginUser = service.getLoginUser(username);
+        MUser loginUser = repository.findLoginUser(username);
 
         // ユーザーが存在しない場合
         if(loginUser == null) {
